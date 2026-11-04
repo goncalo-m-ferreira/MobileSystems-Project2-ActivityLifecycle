@@ -18,7 +18,6 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        // The same ViewModel is reused after an Activity recreation.
         lifecycleHistory = ViewModelProvider(this)[LifecycleHistoryViewModel::class.java]
         lifecycleHistory.recordEvent("onCreate()", "CREATED")
 
@@ -29,7 +28,7 @@ class MainActivity : ComponentActivity() {
                     LifecycleScreen(
                         currentState = lifecycleHistory.currentState,
                         events = lifecycleHistory.events,
-                        isDemo = false,
+                        onClearHistory = { lifecycleHistory.clearHistory() },
                         modifier = Modifier.padding(innerPadding)
                     )
                 }
@@ -63,7 +62,6 @@ class MainActivity : ComponentActivity() {
     }
 
     override fun onDestroy() {
-        // During rotation, the ViewModel survives this Activity instance.
         lifecycleHistory.recordEvent("onDestroy()", "DESTROYED")
         super.onDestroy()
     }
