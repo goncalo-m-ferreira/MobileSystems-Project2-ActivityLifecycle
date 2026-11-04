@@ -10,7 +10,7 @@ import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
-// Holds UI state while Android recreates the Activity, for example on rotation.
+// Keeps the event history when the Activity is recreated after rotation.
 class LifecycleHistoryViewModel : ViewModel() {
 
     companion object {
@@ -28,9 +28,13 @@ class LifecycleHistoryViewModel : ViewModel() {
             Locale.getDefault()
         ).format(Date())
 
-        // Use the same event details in Logcat and on the screen.
         Log.d(LOG_TAG, "$timestamp - $event")
         currentState = state
         events.add(0, LifecycleEvent(event, timestamp))
+    }
+
+    // Clears the on-screen list. Existing Logcat messages are not deleted.
+    fun clearHistory() {
+        events.clear()
     }
 }
