@@ -7,41 +7,32 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import com.ms.activitylifecyclelogger.ui.theme.ActivityLifecycleLoggerTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+
+        // Temporary example data. Actual lifecycle logging will be added later.
+        val sampleEvents = listOf(
+            LifecycleEvent("onResume()", "2026-11-01 19:08:42"),
+            LifecycleEvent("onStart()", "2026-11-01 19:08:42"),
+            LifecycleEvent("onCreate()", "2026-11-01 19:08:41")
+        )
+
         setContent {
             ActivityLifecycleLoggerTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
+                    LifecycleScreen(
+                        currentState = "RESUMED",
+                        events = sampleEvents,
+                        isDemo = true,
                         modifier = Modifier.padding(innerPadding)
                     )
                 }
             }
         }
-    }
-}
-
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    ActivityLifecycleLoggerTheme {
-        Greeting("Android")
     }
 }
